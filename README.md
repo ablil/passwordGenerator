@@ -9,6 +9,8 @@ Simple random password generator written in python3.<br/>
   * hard: charachters + number + symbols
 * store recent password in cache.
   
+  [![asciicast](https://asciinema.org/a/316691.svg)](https://asciinema.org/a/316691)
+  
 ## Installation
 * Download
 ```
