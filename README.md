@@ -18,12 +18,10 @@ Simple random password generator written in python3.<br/>
 > cd passwordgenerator/
 ```
 
-* create alias
+* create shorcut
 ```
-> sudo cp -r passwordgenerator/ /opt/
-> echo "alias password='python3 opt/passwordgenerator/passwordGenerator.py'" >> ~/.bashrc
->  source ~/.bashrc
->  password -h
+> sudo cp app.py /usr/bin/password
+> sudo chmod +x /usr/bin/password
 ```
 
 ## usage
