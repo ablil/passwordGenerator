@@ -17,7 +17,7 @@ command aliases:
 class CLI:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            prog="password",
+            prog="qpg",
             epilog=f"For more info: https://github.com/ablil/quick-password-generator",
         )
 
@@ -32,7 +32,7 @@ class CLI:
     def generate(self):
         """Full CLI command to generate password"""
         parser_generate = self.subparsers.add_parser(
-            "generate", aliases=["g", "gen"], help="Generate passwords"
+            "generate", aliases=["g", "gen"], description="Generate passwords"
         )
         general_group = parser_generate.add_argument_group("General")
         general_group.add_argument(
@@ -60,14 +60,20 @@ class CLI:
     def list(self):
         """Full CLI command to list previous generated passwords"""
         parser_list = self.subparsers.add_parser(
-            "list", aliases=["l", "ls"], help="List generated passwords"
+            "list", aliases=["l", "ls"], description="List generated passwords"
         )
-        parser_list.add_argument("-l", "--limit", default=-1, type=int)
+        parser_list.add_argument(
+            "-l",
+            "--limit",
+            default=-1,
+            type=int,
+            help="number of passwords to show(Default: all)",
+        )
 
     def clear(self):
         """Full CLI command to clear store passwords"""
         parser_clear = self.subparsers.add_parser(
-            'clear', aliases=['c', 'wipe'], help='Clear stored passwords'
+            "clear", aliases=["c", "wipe"], description="Clear stored passwords"
         )
 
     def parse_args(self):
