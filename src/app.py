@@ -2,10 +2,7 @@ from .cli import CLI
 import sys
 import random
 import enum
-import argparse
-import os
-import pickle
-from datetime import datetime
+from .cache import Cache
 
 SCRIPT_NAME = sys.argv[0].split(".")[0]
 ALPHA = [chr(i) for i in range(97, 123)] + [chr(i).upper() for i in range(97, 123)]
@@ -19,62 +16,6 @@ class Complexity(enum.Enum):
     NUMERIC = 2
     ALPHANUMERIC = 3
     HARD = 4
-
-class Cache:
-    def __init__(self):
-        self.cachePath = os.path.join(os.path.expanduser("~"), ".passwordGenerator/")
-        self.cacheFilename = "passwords.pickle"
-        self.cacheAbsoluteFilename = os.path.join(self.cachePath, self.cacheFilename)
-        self.cacheSize = 10
-        self.passwords = list()
-
-        if not os.path.exists(self.cachePath):
-            os.mkdir(self.cachePath)
-
-        if not os.path.exists(self.cacheAbsoluteFilename):
-            # create file
-            with open(os.path.join(self.cachePath, self.cacheFilename), "wb") as file:
-                pass
-        else:
-            try:
-                with open(self.cacheAbsoluteFilename, "rb") as pickleData:
-                    self.passwords = pickle.load(pickleData)
-            except EOFError:
-                pass
-
-    def storePassword(self, password: str):
-        self.passwords.append((Cache.getCurrentTime(), password))
-
-        if len(self.passwords) > self.cacheSize:
-            self.passwords.pop(0)
-
-        with open(os.path.join(self.cachePath, self.cacheFilename), "wb") as pickleData:
-            pickle.dump(self.passwords, pickleData)
-
-    def getRecentPasswords(self, n: int):
-        assert os.path.exists(os.path.join(self.cachePath, self.cacheFilename))
-
-        with open(self.cacheAbsoluteFilename, "rb") as pickleData:
-            try:
-                self.passwords = pickle.load(pickleData)
-            except EOFError:
-                return list()
-
-        return (
-            self.passwords[-1 : -n - 1 : -1]
-            if n < len(self.passwords)
-            else self.passwords
-        )
-
-    @staticmethod
-    def getCurrentTime():
-        now = datetime.now()
-        return now.strftime('%Y:%m:%d-%H:%M:%S')
-
-    def emptyCache(self):
-        self.passwords = list()
-        if os.path.exists(self.cacheAbsoluteFilename):
-            os.remove(self.cacheAbsoluteFilename)
 
 
 
@@ -141,17 +82,17 @@ def main():
     generator = PasswordGenerator()
 
     if args.command in ('c', 'clear', 'wipe'):
-        cache.emptyCache()
-        print("Cache file is now empty")
+        cache.clear()
+        print("All saved passwords are cleared")
         exit(0)
 
     if args.command in ('list', 'ls', 'l'):
-        cachedPasswords = cache.getRecentPasswords(args.limit)
-        if len(cachedPasswords):
-            for record in cachedPasswords:
+        passwords = cache.list(args.limit)
+        if len(passwords):
+            for record in passwords:
                 print("Time: {}, Password: {}".format(record[0], record[1]))
         else:
-            print("Cache file is empty")
+            print("No password is saved")
         exit(0)
 
     if args.command in ('g', 'gen', 'generate'):
@@ -165,7 +106,7 @@ def main():
         generator = PasswordGenerator(password_complexity, args.length)
 
     generatedPassword = generator.generate()
-    cache.storePassword(generatedPassword)
+    cache.save(generatedPassword)
     print("Generated password: " + generatedPassword)
     exit(0)
 
