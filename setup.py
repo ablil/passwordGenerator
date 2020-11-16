@@ -1,12 +1,12 @@
 import setuptools
+from version import VERSION
 
 with open("README.md", "r") as file:
     readme = file.read()
 
-
 setuptools.setup(
     name="quick-password-generator",
-    version="0.0.1",
+    version=VERSION,
     author="ablil",
     author_email="ablil@protonmail.com",
     packages=setuptools.find_packages(),
