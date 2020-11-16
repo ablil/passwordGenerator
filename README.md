@@ -1,40 +1,28 @@
-# Random Password Generator 
-Simple random password generator written in python3.<br/>
-**Features**<br/>
-* customize password length
-* customize password complexity:
-  * alpha: uppercase / lowercase characters.
-  * numeric: numeric values
-  * alphanumeric: characters and numbers.
-  * hard: charachters + number + symbols
-* store recent password in cache.
-  
-  [![asciicast](https://asciinema.org/a/316691.svg)](https://asciinema.org/a/316691)
-  
+# Quick Password Generator (qpg)
+[![PyPI version](https://badge.fury.io/py/quick-password-generator.svg)](https://badge.fury.io/py/quick-password-generator)
+
+Quick password generator.
+
+## Features
+* Obviously generate passwrods
+* Different strategy for generating passwords (alpha, numeric, complex)
+* Customize password length
+* Store and retrieve recent generated passwords
+* 
 ## Installation
-* Download
+
+**Requirement**: Python only
+
 ```
-> git clone https://github.com/ablil/passwordgenerator.git
-> cd passwordgenerator/
+# Install package
+> pip install quick-password-generator --user
+
+# Display help
+> qpg -h 
+
+# Generate passwrod
+> qpg generate --length 30 --complex
 ```
 
-* create shorcut
-```
-> sudo cp app.py /usr/bin/password
-> sudo chmod +x /usr/bin/password
-```
-
-## usage
-```
-USAGE:
-core commands:
-    generate:   generate passwords
-    list:       list recent generated password
-    clear:      clear store passwords
-
-command aliases:
-    generate:   g, gen, generate
-    list:       l, ls, list
-    clear:      c, clear, wipe
-```
-
+## Overview
+[![asciicast](https://asciinema.org/a/373289.svg)](https://asciinema.org/a/373289)
