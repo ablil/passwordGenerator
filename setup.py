@@ -10,7 +10,7 @@ setuptools.setup(
     author="ablil",
     author_email="ablil@protonmail.com",
     packages=setuptools.find_packages(),
-    entry_points={"console_scripts": ["password = src.app:main"]},
+    entry_points={"console_scripts": ["qpg = src.app:main"]},
     description="quick password generator with cache support",
     long_description=readme,
     long_description_content_type="text/markdown",

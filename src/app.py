@@ -1,12 +1,4 @@
-###########################################################
-# Script Name	: passwordGenerator.py
-# Description	: random custom password generator
-# Arguments	: passwordGenerator.py --recent 4 --alpha --numeric --alphanumric --hard --length 5 --delete-cache
-# Date		: 2020-03-18
-# Author	: ablil
-# Email		: ablil@protonmail.com
-###########################################################
-
+from .cli import CLI
 import sys
 import random
 import enum
@@ -224,18 +216,18 @@ class PasswordGenerator:
 
 def main():
 
-    parser = Parser()
-    parser.parse()
+    cli = CLI()
+    args = cli.parse_args()
     cache = Cache()
     generator = PasswordGenerator()
 
-    if parser.emptyCache:
+    if args.command in ('c', 'clear', 'wipe'):
         cache.emptyCache()
         print("Cache file is now empty")
         exit(0)
 
-    if parser.recentCache != 0:
-        cachedPasswords = cache.getRecentPasswords(parser.recentCache)
+    if args.command in ('list', 'ls', 'l'):
+        cachedPasswords = cache.getRecentPasswords(args.limit)
         if len(cachedPasswords):
             for record in cachedPasswords:
                 print("Time: {}, Password: {}".format(record[0], record[1]))
@@ -243,8 +235,15 @@ def main():
             print("Cache file is empty")
         exit(0)
 
-    if parser.passwordComplexity:
-        generator = PasswordGenerator(parser.passwordComplexity, parser.passwordLength)
+    if args.command in ('g', 'gen', 'generate'):
+        password_complexity = Complexity.ALPHANUMERIC
+        if args.alpha:
+            password_complexity = Complexity.ALPHA
+        if args.num:
+            password_complexity = Complexity.NUMERIC
+        if args.complex:
+            password_complexity = Complexity.HARD
+        generator = PasswordGenerator(password_complexity, args.length)
 
     generatedPassword = generator.generate()
     cache.storePassword(generatedPassword)

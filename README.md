@@ -26,21 +26,15 @@ Simple random password generator written in python3.<br/>
 
 ## usage
 ```
-usage: passwordGenerator.py [-h] [-l LENGTH]
-                            [--alpha | --numeric | --alphanumeric | --hard]
-                            [--recent RECENT | --empty-cache]
+USAGE:
+core commands:
+    generate:   generate passwords
+    list:       list recent generated password
+    clear:      clear store passwords
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -l LENGTH, --length LENGTH
-                        Password length (default: 15)
-  --alpha               use alphanumeric characters only (uppercase /
-                        lowercase
-  --numeric             use numeric values only
-  --alphanumeric        user characters and numebrs. (This is the default
-                        option)
-  --hard                use characters, numbers and symbols (Recommanded)
-  --recent RECENT       Get recent generated passwords
-  --empty-cache         Empty Cache
+command aliases:
+    generate:   g, gen, generate
+    list:       l, ls, list
+    clear:      c, clear, wipe
 ```
 
