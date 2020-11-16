@@ -13,7 +13,6 @@ command aliases:
     clear:      c, clear, wipe
 """
 
-
 class CLI:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
