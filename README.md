@@ -8,7 +8,8 @@ Quick password generator.
 * Different strategy for generating passwords (alpha, numeric, complex)
 * Customize password length
 * Store and retrieve recent generated passwords
-* 
+* Import passwords from json file
+* Export passwords to json file. 
 ## Installation
 
 **Requirement**: Python only

@@ -6,13 +6,14 @@ core commands:
     generate:   generate passwords
     list:       list recent generated password
     clear:      clear store passwords
+    import:     import passwords from json file
+    export:     export password to json file
 
 command aliases:
     generate:   g, gen, generate
     list:       l, ls, list
     clear:      c, clear, wipe
 """
-
 
 class CLI:
     def __init__(self):
@@ -28,6 +29,8 @@ class CLI:
         self.generate()
         self.list()
         self.clear()
+        self.import_json()
+        self.export_json()
 
     def generate(self):
         """Full CLI command to generate password"""
@@ -75,6 +78,16 @@ class CLI:
         parser_clear = self.subparsers.add_parser(
             "clear", aliases=["c", "wipe"], description="Clear stored passwords"
         )
+
+    def import_json(self):
+        """FUll CLI command to import passwords from json file"""
+        import_parser = self.subparsers.add_parser('import', description='Import passwords from json file')
+        import_parser.add_argument('filename', type=str, help="json filename")
+
+    def export_json(self):
+        """Full cli command to export saved passwords"""
+        export_parser = self.subparsers.add_parser('export', description='Export password from json file')
+        export_parser.add_argument('filename', type=str, help='Json filename')
 
     def parse_args(self):
         args = self.parser.parse_args()
