@@ -1,3 +1,4 @@
+from .loader import Loader
 from .cli import CLI
 from .cache import Cache
 from .generator import Generator
@@ -27,6 +28,18 @@ def main():
             print("No password is saved")
         exit(0)
 
+    if args.command in ("export"):
+        exporter = Loader(args.filename)
+        passwords = cache.list()
+        exporter.json_export(passwords)
+        print(f"Exported all password to {args.filename}")
+
+    if args.command in ("import"):
+        importer = Loader(args.filename)
+        imported_passwords = importer.json_import()
+        for record in imported_passwords:
+            cache.save(record["password"], record["generated"])
+
     if args.command in ("g", "gen", "generate"):
         password_complexity = Complexity.ALPHANUMERIC
         if args.alpha:
@@ -37,10 +50,9 @@ def main():
             password_complexity = Complexity.HARD
         generator = Generator(password_complexity, args.length)
 
-    generatedPassword = generator.generate()
-    cache.save(generatedPassword)
-    print("Generated password: " + generatedPassword)
-    exit(0)
+        generatedPassword = generator.generate()
+        cache.save(generatedPassword)
+        print("Generated password: " + generatedPassword)
 
 
 if __name__ == "__main__":

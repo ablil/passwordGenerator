@@ -34,8 +34,9 @@ class Cache:
     def list(self, n=-1):
         """get saved passwords"""
 
-        with open(self.abs_filename, "rb") as data:
-            self.saved_passwords = pickle.load(data)
+        if os.path.exists(self.abs_filename):
+            with open(self.abs_filename, "rb") as data:
+                self.saved_passwords = pickle.load(data)
 
         return self.saved_passwords
 
